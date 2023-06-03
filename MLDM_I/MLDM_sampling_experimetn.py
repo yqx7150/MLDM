@@ -1,7 +1,3 @@
-#@title Autoload all modules
-#%load_ext autoreload
-#%autoreload 2
-
 from pixel import pixel, pixel3, pixel_3
 from dataclasses import dataclass, field
 import matplotlib.pyplot as plt
@@ -100,18 +96,17 @@ probability_flow = False #@param {"type": "boolean"}
 psnr_result=[ ]
 ssim_result=[ ]
 for j in range(0,1,1):
-  print('****************'+'第{}张图'.format(j+1)+'******************')
-  
+    
   img = io.loadmat('./input_output/ori/test_tu/img/bedroom/Img04.mat')['Img']
 
   
 #######################################################################################################
   
-  img_ob_b=cv2.imread('./input_output/ori/test_tu/MLDM/USAF/3.5 ms/Capture_00001.png',-1)
+  img_ob_b=cv2.imread('./input/exp/bule/Capture_00001.png',-1)
 
-  img_ob_g=cv2.imread('./input_output/ori/test_tu/MLDM/USAF/3.5 ms/Capture_00001.png',-1)
+  img_ob_g=cv2.imread('./input/exp/green/Capture_00001.png',-1)
 
-  img_ob_r=cv2.imread('./input_output/ori/test_tu/MLDM/USAF/3.5 ms/Capture_00001.png',-1)
+  img_ob_r=cv2.imread('./input/exp/red/Capture_00001.png',-1)
   
   
   img_ob_1=np.stack((img_ob_r[:,:],img_ob_g[:,:],img_ob_b[:,:]),axis=2)
@@ -122,37 +117,14 @@ for j in range(0,1,1):
   img_ob1=pixel3(img_ob1)
   img_ob2=pixel3(img_ob2)
   
-  
-  '''
-  #全归一化参数2
-  img_ob1[:,:,0]=img_ob1[:,:,0]+0.03
-  img_ob1[:,:,1]=img_ob1[:,:,1]+0.03
-  img_ob1[:,:,2]=img_ob1[:,:,2]+0.03
-  img_ob2[:,:,0]=img_ob2[:,:,0]-0.15
-  img_ob2[:,:,1]=img_ob2[:,:,1]-0.15
-  img_ob2[:,:,2]=img_ob2[:,:,2]-0.15
-  '''
-  
-
-  #全归一化参数1
-  img_ob1[:,:,0]=img_ob1[:,:,0]-0.23
+    
+  img_ob1[:,:,0]=img_ob1[:,:,0]+0.31
   img_ob1[:,:,1]=img_ob1[:,:,1]+0.18
-  img_ob1[:,:,2]=img_ob1[:,:,2]+0.27
-  img_ob2[:,:,0]=img_ob2[:,:,0]-0.3
-  img_ob2[:,:,1]=img_ob2[:,:,1]+0.1
-  img_ob2[:,:,2]=img_ob2[:,:,2]+0.2
-
-  
-  '''
-  #归一化乘系数的参数1
-  img_ob1[:,:,0]=img_ob1[:,:,0]+0.15
-  img_ob1[:,:,1]=img_ob1[:,:,1]+0.09
-  img_ob1[:,:,2]=img_ob1[:,:,2]-0.03
-  img_ob2[:,:,0]=img_ob2[:,:,0]+0.12
+  img_ob1[:,:,2]=img_ob1[:,:,2]-0.26
+  img_ob2[:,:,0]=img_ob2[:,:,0]+0.21
   img_ob2[:,:,1]=img_ob2[:,:,1]+0.07
-  img_ob2[:,:,2]=img_ob2[:,:,2]-0.05
-  '''
-
+  img_ob2[:,:,2]=img_ob2[:,:,2]-0.33
+  
 ########################################################################################################################
 
   img = torch.from_numpy(img).permute(2,0,1).unsqueeze(0).cuda()     #tensor:(1,3,256,256)
