@@ -102,15 +102,15 @@ ssim_result=[ ]
 for j in range(0,1,1):
   print('****************'+'第{}张图'.format(j+1)+'******************')
   
-  img = io.loadmat('./input_output/ori/test_tu/img/bedroom/Img04.mat')['Img']
+  img = io.loadmat('./input/sim/house_Img.mat')['Img']
   '''
   img_ob = io.loadmat('./input_output/ori/test_tu/ob/bedroom_2phase.mat')['ob']
   img_ob1 = img_ob[0:256,0:256]
   img_ob2 = img_ob[0:256,256:512]
   '''
 
-  img_ob1 = io.loadmat('./input_output/ori/test_tu/ob/bedroom/ob04.mat')['ob']
-  img_ob2 = io.loadmat('./input_output/ori/test_tu/ob/bedroom_0.5pi/ob04.mat')['ob']
+  img_ob1 = io.loadmat('./input/sim/house_ob.mat')['ob']
+  img_ob2 = io.loadmat('./input/sim/house_0.5pi_ob.mat')['ob']
   '''
   img_ob1_b = io.loadmat('./input_output/ori/test_tu/ob/USAF_0pi.mat')['ob']       ########################## 
   img_ob1_g = io.loadmat('./input_output/ori/test_tu/ob/USAF_0pi.mat')['ob']
