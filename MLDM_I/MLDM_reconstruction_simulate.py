@@ -402,7 +402,7 @@ def get_pc_sampler(sde, shape, predictor, corrector, inverse_scaler, snr,
   Returns:
     A sampling function that returns samples and the number of function evaluations during sampling.
   """
-  # Create predictor & corrector update functions 第一个是函数，其他的是参数
+  # Create predictor & corrector update functions
   predictor_update_fn = functools.partial(shared_predictor_update_fn,
                                           sde=sde,
                                           predictor=predictor,
@@ -434,12 +434,11 @@ def get_pc_sampler(sde, shape, predictor, corrector, inverse_scaler, snr,
       ssim_max=0
       psnr_n=[]
       ssim_n=[]
-      #for i in range(sde.N):
       for i in range(1000):
         t = timesteps[i]
         vec_t = torch.ones(shape[0], device=t.device) * t
-        ########################预测器更新#######################
-        x, x_mean = predictor_update_fn(x_mean, vec_t, model=model)#预测器更新    
+        ########################predictor_update#######################
+        x, x_mean = predictor_update_fn(x_mean, vec_t, model=model)    
         #x: A PyTorch tensor of the next state.     
         #x_mean: A PyTorch tensor. The next state without random noise. Useful for denoising.
 
@@ -449,7 +448,7 @@ def get_pc_sampler(sde, shape, predictor, corrector, inverse_scaler, snr,
         #data_ob_first4=data_ob4.permute(2,0,1).unsqueeze(0)
 
 
-        masked_data_mean1, std = sde.marginal_prob(data_ob_first1, vec_t) #std = self.sigma_min * (self.sigma_max / self.sigma_min) ** vec_t      masked_data_mean = data_ob_first
+        masked_data_mean1, std = sde.marginal_prob(data_ob_first1, vec_t) 
         masked_data_mean2, std = sde.marginal_prob(data_ob_first2, vec_t)
        # masked_data_mean3, std = sde.marginal_prob(data_ob_first3, vec_t)
        # masked_data_mean4, std = sde.marginal_prob(data_ob_first4, vec_t)
@@ -462,17 +461,17 @@ def get_pc_sampler(sde, shape, predictor, corrector, inverse_scaler, snr,
         noise_result2=torch.stack((forward_noise_0,forward_noise_1,forward_noise_2),dim=0).unsqueeze(0)   #(1,3,256,256)
         masked_data2 = masked_data_mean2 +  noise_result2* std[:, None, None, None]
 
-        a1=0.5    #0.05
+        a1=0.05    #0.05
       #  a2=0
-        b1=0.5
+        b1=1
       #  b2=0
 
         c=1
         d=1
 
-        w1=0.5
+        w1=0.05
      #   w2=0
-        k1=0.5
+        k1=1
      #   k2=0
         #############################x_mean#################################
         x_red=c*x_mean[0,0,:,:]+a1*backward(masked_data1[0,0,:,:]-forward(x_mean[0,0,:,:],mask1),mask1)+b1*backward(masked_data2[0,0,:,:]-forward(x_mean[0,0,:,:],mask2),mask2)
@@ -494,8 +493,8 @@ def get_pc_sampler(sde, shape, predictor, corrector, inverse_scaler, snr,
         x1,x2,x3=x,x,x
     
 
-        ########################校正器更新#########################
-        x1,x2,x3, x_mean = corrector_update_fn(x1,x2,x3,x_mean, vec_t, model=model)#校正器更新
+        ########################corrector_update#########################
+        x1,x2,x3, x_mean = corrector_update_fn(x1,x2,x3,x_mean, vec_t, model=model)
 
         
         #############################x_mean#################################
@@ -516,21 +515,18 @@ def get_pc_sampler(sde, shape, predictor, corrector, inverse_scaler, snr,
          # +w2*backward(masked_data_mean3[0,2,:,:]-forward(x_mean[0,2,:,:],mask3),mask3)+k2*backward(masked_data_mean4[0,2,:,:]-forward(x_mean[0,2,:,:],mask4),mask4)
         x=torch.stack((x_red,x_green,x_blue),dim=0).unsqueeze(0)
       
-        '''
-        x_0=tvdenoise(x[0,0,:,:],10,2)#TV去噪
+        x_0=tvdenoise(x[0,0,:,:],10,2)
         x_1=tvdenoise(x[0,1,:,:],10,2)
         x_2=tvdenoise(x[0,2,:,:],10,2)
         x=torch.stack((x_0,x_1,x_2),dim=0).unsqueeze(0)
-        '''
-       # x1,x2,x3=x,x,x
+        
         
         x_mean_save=x.cpu().numpy()
         x_mean_save_cv=x_mean_save[0,:,:,:].transpose(1,2,0)
         data_ori=data[0,:,:,:].cpu().numpy().transpose(1,2,0)
         print(x_mean_save_cv.min(),x_mean_save_cv.max())
-       # x_mean_save_cv[57:200,57:200,:] = x_mean_save_cv[57:200,57:200,:]-x_mean_save_cv[57:200,57:200,:].min()
-       # x_mean_save_cv[57:200,57:200,:] = (x_mean_save_cv[57:200,57:200,:]-x_mean_save_cv[57:200,57:200,:].min())/(x_mean_save_cv[57:200,57:200,:].max()-x_mean_save_cv[57:200,57:200,:].min())  ########
-        x_mean_save_cv = (x_mean_save_cv-x_mean_save_cv.min())/(x_mean_save_cv.max()-x_mean_save_cv.min())      ##############################
+        x_mean_save_cv[57:200,57:200,:] = (x_mean_save_cv[57:200,57:200,:]-x_mean_save_cv[57:200,57:200,:].min())/(x_mean_save_cv[57:200,57:200,:].max()-x_mean_save_cv[57:200,57:200,:].min())  ########
+       # x_mean_save_cv = (x_mean_save_cv-x_mean_save_cv.min())/(x_mean_save_cv.max()-x_mean_save_cv.min())     
         data_ori = (data_ori-data_ori.min())/(data_ori.max()-data_ori.min())
         x_mean_save_cv=np.clip(x_mean_save_cv,0,1)
         data_ori=np.clip(data_ori,0,1)
@@ -542,8 +538,8 @@ def get_pc_sampler(sde, shape, predictor, corrector, inverse_scaler, snr,
 
        # x_mean_save_img=(x_mean_save_cv[:,:,0]+x_mean_save_cv[:,:,1]+x_mean_save_cv[:,:,2])/3
 
-        x_mean_save_img=np.stack((x_mean_save_cv[:,:,2],x_mean_save_cv[:,:,1],x_mean_save_cv[:,:,0]),axis=2)        ######################
-        cv2.imwrite('Real-time reconstruction.png',x_mean_save_img*255)                                    ###########################
+        x_mean_save_img=np.stack((x_mean_save_cv[:,:,2],x_mean_save_cv[:,:,1],x_mean_save_cv[:,:,0]),axis=2)       
+        cv2.imwrite('Real-time reconstruction.png',x_mean_save_img*255)                                   
         print('iterations:',i,'psnr:',psnr,'ssim:',ssim)
         psnr_n.append(psnr)
         ssim_n.append(ssim)
