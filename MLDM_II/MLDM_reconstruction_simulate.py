@@ -441,10 +441,10 @@ def get_pc_sampler(sde, shape, predictor, corrector, inverse_scaler, snr,
         noise_result2=torch.stack((forward_noise_0,forward_noise_1,forward_noise_2),dim=0).unsqueeze(0)   #(1,3,256,256)
         masked_data2 = masked_data_mean2 +  noise_result2* std[:, None, None, None]
         
-        a=0.5
-        b=0.5
-        c=0.5
-        d=0.5
+        a=0.1
+        b=1
+        c=0.1
+        d=1
         e=1
         f=1
         g=1
