@@ -1,21 +1,3 @@
-# coding=utf-8
-# Copyright 2020 The Google Research Authors.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-# pylint: skip-file
-# pytype: skip-file
-"""Various sampling methods."""
 import functools
 from tkinter import W
 
@@ -402,7 +384,7 @@ def get_pc_sampler(sde, shape, predictor, corrector, inverse_scaler, snr,
   Returns:
     A sampling function that returns samples and the number of function evaluations during sampling.
   """
-  # Create predictor & corrector update functions 第一个是函数，其他的是参数
+  # Create predictor & corrector update functions 
   predictor_update_fn = functools.partial(shared_predictor_update_fn,
                                           sde=sde,
                                           predictor=predictor,
@@ -438,8 +420,8 @@ def get_pc_sampler(sde, shape, predictor, corrector, inverse_scaler, snr,
       for i in range(1000):
         t = timesteps[i]
         vec_t = torch.ones(shape[0], device=t.device) * t
-        ########################预测器更新#######################
-        x, x_mean = predictor_update_fn(x_mean, vec_t, model=model)#预测器更新    
+        ########################predictor_update#######################
+        x, x_mean = predictor_update_fn(x_mean, vec_t, model=model)    
         #x: A PyTorch tensor of the next state.     
         #x_mean: A PyTorch tensor. The next state without random noise. Useful for denoising.
         
@@ -447,7 +429,7 @@ def get_pc_sampler(sde, shape, predictor, corrector, inverse_scaler, snr,
         data_ob_first2=data_ob2.permute(2,0,1).unsqueeze(0)
         
 
-        masked_data_mean1, std = sde.marginal_prob(data_ob_first1, vec_t) #std = self.sigma_min * (self.sigma_max / self.sigma_min) ** vec_t      masked_data_mean = data_ob_first
+        masked_data_mean1, std = sde.marginal_prob(data_ob_first1, vec_t) 
         masked_data_mean2, std = sde.marginal_prob(data_ob_first2, vec_t)
 
 
@@ -488,8 +470,8 @@ def get_pc_sampler(sde, shape, predictor, corrector, inverse_scaler, snr,
         x1,x2,x3=x,x,x
     
 
-        ################### #####校正器更新#########################
-        x1,x2,x3, x_mean = corrector_update_fn(x1,x2,x3,x_mean, vec_t, model=model)#校正器更新
+        ########################corrector_update#########################
+        x1,x2,x3, x_mean = corrector_update_fn(x1,x2,x3,x_mean, vec_t, model=model)
 
 
         #############################x_mean#################################
@@ -510,7 +492,7 @@ def get_pc_sampler(sde, shape, predictor, corrector, inverse_scaler, snr,
         x_channel_5=x_mean[0,5,:,:]+d*backward(masked_data_mean2[0,2,:,:]-forward(x_mean[0,5,:,:],mask2),mask2)
         x=torch.stack((x_channel_0,x_channel_1,x_channel_2,x_channel_3,x_channel_4,x_channel_5),dim=0).unsqueeze(0)
 
-        x_0=tvdenoise(x[0,0,:,:],10,2)#TV去噪
+        x_0=tvdenoise(x[0,0,:,:],10,2)
         x_1=tvdenoise(x[0,1,:,:],10,2)
         x_2=tvdenoise(x[0,2,:,:],10,2)
         x_3=tvdenoise(x[0,3,:,:],10,2)
@@ -524,9 +506,7 @@ def get_pc_sampler(sde, shape, predictor, corrector, inverse_scaler, snr,
         x_mean_save_cv=(a*x_mean_save[0,0:3,:,:].transpose(1,2,0)+b*x_mean_save[0,3:6,:,:].transpose(1,2,0))/(a+b)   
         data_ori=data[0,:,:,:].cpu().numpy().transpose(1,2,0)
         print(x_mean_save_cv.min(),x_mean_save_cv.max())
-       # x_mean_save_cv[57:200,57:200,:] = x_mean_save_cv[57:200,57:200,:]-x_mean_save_cv[57:200,57:200,:].min()
-       # x_mean_save_cv[57:200,57:200,:] = (x_mean_save_cv[57:200,57:200,:]-x_mean_save_cv[57:200,57:200,:].min())/(x_mean_save_cv[57:200,57:200,:].max()-x_mean_save_cv[57:200,57:200,:].min())  ########
-        x_mean_save_cv = (x_mean_save_cv-x_mean_save_cv.min())/(x_mean_save_cv.max()-x_mean_save_cv.min())
+        x_mean_save_cv[57:200,57:200,:] = (x_mean_save_cv[57:200,57:200,:]-x_mean_save_cv[57:200,57:200,:].min())/(x_mean_save_cv[57:200,57:200,:].max()-x_mean_save_cv[57:200,57:200,:].min()) 
         data_ori = (data_ori-data_ori.min())/(data_ori.max()-data_ori.min())
         x_mean_save_cv=np.clip(x_mean_save_cv,0,1)
         data_ori=np.clip(data_ori,0,1)
