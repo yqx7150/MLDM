@@ -428,7 +428,7 @@ def get_pc_sampler(sde, shape, predictor, corrector, inverse_scaler, snr,
         data_ob_first2=data_ob2.permute(2,0,1).unsqueeze(0)
         
 
-        masked_data_mean1, std = sde.marginal_prob(data_ob_first1, vec_t) #std = self.sigma_min * (self.sigma_max / self.sigma_min) ** vec_t      masked_data_mean = data_ob_first
+        masked_data_mean1, std = sde.marginal_prob(data_ob_first1, vec_t) 
         masked_data_mean2, std = sde.marginal_prob(data_ob_first2, vec_t)
 
 
