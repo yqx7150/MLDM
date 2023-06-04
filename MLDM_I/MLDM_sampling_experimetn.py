@@ -162,7 +162,7 @@ for j in range(0,1,1):
                                     continuous=config.training.continuous,
                                     eps=sampling_eps, device=config.device)
 
-    x,psnr_max,ssim_max = sampling_fn(score_model,Img,H2,img_ob1,img_ob2)                          #img:tensor(1,3,256,256)    H:numpy(256,256)  img_ob:tensor(256,256,3)
+    x,psnr_max,ssim_max = sampling_fn(score_model,img,H2,img_ob1,img_ob2)                          #img:tensor(1,3,256,256)    H:numpy(256,256)  img_ob:tensor(256,256,3)
 
     x_min=x.min()
     x_max=x.max()
