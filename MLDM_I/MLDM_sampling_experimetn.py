@@ -96,7 +96,7 @@ probability_flow = False #@param {"type": "boolean"}
 psnr_result=[ ]
 ssim_result=[ ]
 for j in range(0,1,1):
-    
+  img = io.loadmat('./input/sim/house_Img.mat')['Img']
 #######################################################################################################
   
   img_ob_b=cv2.imread('./input/exp/bule/Capture_00001.png',-1)
@@ -123,11 +123,11 @@ for j in range(0,1,1):
   img_ob2[:,:,2]=img_ob2[:,:,2]-0.33
   
 ########################################################################################################################
-
+  img = torch.from_numpy(img).permute(2,0,1).unsqueeze(0).cuda() 
 
   img_ob1=torch.from_numpy(img_ob1).cuda()                       
   img_ob2=torch.from_numpy(img_ob2).cuda()
-
+  
   dp=0.0038*3
   di=3.4
   z1=500
@@ -162,7 +162,7 @@ for j in range(0,1,1):
                                     continuous=config.training.continuous,
                                     eps=sampling_eps, device=config.device)
 
-    x,psnr_max,ssim_max = sampling_fn(score_model,H1,H2,img_ob1,img_ob2)                          #img:tensor(1,3,256,256)    H:numpy(256,256)  img_ob:tensor(256,256,3)
+    x,psnr_max,ssim_max = sampling_fn(score_model,Img,H2,img_ob1,img_ob2)                          #img:tensor(1,3,256,256)    H:numpy(256,256)  img_ob:tensor(256,256,3)
 
     x_min=x.min()
     x_max=x.max()
