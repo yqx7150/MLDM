@@ -1,7 +1,3 @@
-#@title Autoload all modules
-#%load_ext autoreload
-#%autoreload 2
-
 from pixel import pixel, pixel3, pixel_3
 from dataclasses import dataclass, field
 import matplotlib.pyplot as plt
@@ -100,27 +96,13 @@ probability_flow = False #@param {"type": "boolean"}
 psnr_result=[ ]
 ssim_result=[ ]
 for j in range(0,1,1):
-  print('****************'+'第{}张图'.format(j+1)+'******************')
   
-  img = io.loadmat('./input_output/ori/test_tu/img/bedroom/Img04.mat')['Img']
-  '''
-  img_ob = io.loadmat('./input_output/ori/test_tu/ob/bedroom_2phase.mat')['ob']
-  img_ob1 = img_ob[0:256,0:256]
-  img_ob2 = img_ob[0:256,256:512]
-  '''
+  img = io.loadmat('./input/sim/Img02.mat')['Img']
 
-  img_ob1 = io.loadmat('./input_output/ori/test_tu/ob/bedroom/ob04.mat')['ob']
-  img_ob2 = io.loadmat('./input_output/ori/test_tu/ob/bedroom_0.5pi/ob04.mat')['ob']
-  '''
-  img_ob1_b = io.loadmat('./input_output/ori/test_tu/ob/USAF_0pi.mat')['ob']       ########################## 
-  img_ob1_g = io.loadmat('./input_output/ori/test_tu/ob/USAF_0pi.mat')['ob']
-  img_ob1_r = io.loadmat('./input_output/ori/test_tu/ob/USAF_0pi.mat')['ob']
-  img_ob1 = np.stack((img_ob1_b,img_ob1_g,img_ob1_r),axis=2)
-  img_ob2_b = io.loadmat('./input_output/ori/test_tu/ob/USAF_0.5pi.mat')['ob']
-  img_ob2_g = io.loadmat('./input_output/ori/test_tu/ob/USAF_0.5pi.mat')['ob']
-  img_ob2_r = io.loadmat('./input_output/ori/test_tu/ob/USAF_0.5pi.mat')['ob']
-  img_ob2 = np.stack((img_ob2_b,img_ob2_g,img_ob2_r),axis=2)
-  '''
+
+  img_ob1 = io.loadmat('./input/sim/ob02.mat')['ob']
+  img_ob2 = io.loadmat('./input/sim/ob02_0.5pi.mat')['ob']
+
 
   img = torch.from_numpy(img).permute(2,0,1).unsqueeze(0).cuda()     #tensor:(1,3,256,256)
 
@@ -161,7 +143,7 @@ for j in range(0,1,1):
                                     continuous=config.training.continuous,
                                     eps=sampling_eps, device=config.device)
 
-    x,psnr_max,ssim_max = sampling_fn(score_model,img,H1,H2,img_ob1,img_ob2)                          #img:tensor(1,3,256,256)    H:numpy(256,256)  img_ob:tensor(256,256,3)
+    x,psnr_max,ssim_max = sampling_fn(score_model,img,H1,H2,img_ob1,img_ob2)         
 
     x_min=x.min()
     x_max=x.max()
