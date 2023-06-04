@@ -10,7 +10,6 @@ from models.utils import from_flattened_numpy, to_flattened_numpy, get_score_fn
 from scipy import integrate
 import sde_lib
 from models import utils as mutils
-#from skimage.measure import compare_psnr,compare_ssim
 from skimage.metrics import peak_signal_noise_ratio as compare_psnr
 from skimage.metrics import structural_similarity as compare_ssim
 import cv2
