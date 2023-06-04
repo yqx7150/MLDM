@@ -97,7 +97,7 @@ psnr_result=[ ]
 ssim_result=[ ]
 for j in range(0,1,1):
   
-  img = io.loadmat('./input_output/ori/test_tu/img/bedroom/Img04.mat')['Img']
+  img = io.loadmat('./input/sim/house.mat')['Img']
 
   
 #######################################################################################################
