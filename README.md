@@ -1,7 +1,9 @@
 # MLDM
 
 **Paper**: Multi-phase FZA Lensless Imaging via Diffusion Model (MLDM)
-**Authors**: Wenbo Wan, Huihui Ma, Zijie Mei, Huilin Zhou, Yuhao Wang, Senior Member, IEEE, Qiegen LiuSenior Member, IEEE
+
+**Authors**: Wenbo Wan, Huihui Ma, Zijie Mei, Huilin Zhou, Yuhao Wang, Senior Member, IEEE, Qiegen Liu, Senior Member, IEEE
+
 Optics EXPRESS [https://opg.optica.org/oe/fulltext.cfm?uri=oe-31-12-20595&id=531211]
 
 Date : June-2-2023  
@@ -25,6 +27,7 @@ Lensless imaging shifts the burden of imaging from bulky and expensive hardware 
 
 ## Checkpoints
 MLDM_I : We provide pretrained checkpoints. You can download pretrained models from  [Baidu cloud] (https://pan.baidu.com/s/1CX7xCh1uJl-h5ZojO5SkNQ?pwd=hdtp) Extract the code (hdtp)
+
 MLDM_II : We provide pretrained checkpoints. You can download pretrained models from  [Baidu cloud] (https://pan.baidu.com/s/1-0WZnOfjQ5eiTjk1aO93PQ?pwd=taf4) Extract the code (taf4)
 
 ## Dataset
@@ -41,6 +44,7 @@ python main.py --config=configs/ve/church_ncsnpp_continuous.py  --workdir=exp_tr
 ## Test:
 
 Simulate : python MLDM_reconstruction_simulate.py
+
 Experiment : python MLDM_reconstruction_experiment.py
 
 
