@@ -15,7 +15,7 @@ Lensless imaging shifts the burden of imaging from bulky and expensive hardware 
 
 
 ## The main processes of lensless imaging include optical encoding and computer decoding processes.
-<div align="center"><img src="https://github.com/yqx7150/MLDM/tree/main/Figs/fig1.png"> </div>
+<div align="center"><img src="https://github.com/yqx7150/MLDM/blob/main/Figs/fig1.png"> </div>
 
 ## Reconstruction flow chart of MLDM-I algorithm.
 <div align="center"><img src="https://github.com/yqx7150/MLDM/tree/main/Figs/fig3.png"> </div>
