@@ -18,16 +18,16 @@ Lensless imaging shifts the burden of imaging from bulky and expensive hardware 
 <div align="center"><img src="https://github.com/yqx7150/MLDM/blob/main/Figs/fig1.png"> </div>
 
 ## Reconstruction flow chart of MLDM-I algorithm.
-<div align="center"><img src="https://github.com/yqx7150/MLDM/tree/main/Figs/fig3.png"> </div>
+<div align="center"><img src="https://github.com/yqx7150/MLDM/blob/main/Figs/fig3.png"> </div>
 
 ## Reconstruction flow chart of MLDM-II algorithm.
-<div align="center"><img src="https://github.com/yqx7150/MLDM/tree/main/Figs/fig5.png"> </div>
+<div align="center"><img src="https://github.com/yqx7150/MLDM/blob/main/Figs/fig5.png"> </div>
 
 ## The multi-phase lensless imaging system.
-<div align="center"><img src="https://github.com/yqx7150/MLDM/tree/main/Figs/fig8.png"> </div>
+<div align="center"><img src="https://github.com/yqx7150/MLDM/blob/main/Figs/fig8.png"> </div>
 
 ## Visual comparison of reconstructed images on optical experiment. (a) Ground Truth (b) BP (c) CS (d) LSGM (e) ADMM (f) MLDM-I (g) MLDM-II.
-<div align="center"><img src="https://github.com/yqx7150/MLDM/tree/main/Figs/fig9.png"> </div>
+<div align="center"><img src="https://github.com/yqx7150/MLDM/blob/main/Figs/fig9.png"> </div>
 
 
 ## Requirements and Dependencies
