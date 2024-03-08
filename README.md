@@ -9,7 +9,7 @@ Optics EXPRESS [https://opg.optica.org/oe/fulltext.cfm?uri=oe-31-12-20595&id=531
 Date : June-2-2023  
 Version : 1.0  
 The code and the algorithm are for non-comercial use only.  
-Copyright 2023, Department of Electronic Information Engineering, Nanchang University. 
+Copyright 2023, School of information Engineering, Nanchang University. 
 
 Lensless imaging shifts the burden of imaging from bulky and expensive hardware to computing, which enables new architectures for portable cameras. However, the twin image effect caused by the missing phase information in the light wave is a key factor limiting the quality of lensless imaging. Conventional single-phase encoding methods and independent reconstruction of separate channels pose challenges in removing twin images and preserving the color fidelity of the reconstructed image. In order to achieve high-quality lensless imaging, the multiphase lensless imaging via diffusion model (MLDM) is proposed. A multi-phase FZA encoder integrated on a single mask plate is used to expand the data channel of a single-shot image. The information association between the color image pixel channel and the encoded phase channel is established by extracting prior information of the data distribution based on multi-channel encoding. Finally, the reconstruction quality is improved through the use of the iterative reconstruction method. The results show that the proposed MLDM method effectively removes the influence of twin images and produces high-quality reconstructed images compared with traditional methods, and the results reconstructed using MLDM have higher structural similarity and peak signal-to-noise ratio.
 
